@@ -1,5 +1,6 @@
 package com.ciberaccion.hexacredito.application.usecase;
 
+import com.ciberaccion.hexacredito.domain.exception.SolicitudCreditoNoEncontradaException;
 import com.ciberaccion.hexacredito.domain.model.EstadoSolicitud;
 import com.ciberaccion.hexacredito.domain.model.SolicitudCredito;
 import com.ciberaccion.hexacredito.domain.port.in.EvaluarSolicitudCreditoUseCase;
@@ -17,7 +18,8 @@ public class EvaluarSolicitudCreditoUseCaseImpl implements EvaluarSolicitudCredi
 
     @Override
     public SolicitudCredito evaluar(Long solicitudId) {
-        SolicitudCredito solicitud = solicitudCreditoRepositoryPort.buscarPorId(solicitudId);
+        SolicitudCredito solicitud = solicitudCreditoRepositoryPort.buscarPorId(solicitudId)
+                .orElseThrow(() -> new SolicitudCreditoNoEncontradaException(solicitudId));
 
         boolean enListaNegra = consultaBuroPort.estaEnListaNegra(solicitud.getCliente().getDocumentoIdentidad());
         boolean cumpleCapacidad = solicitud.cumpleCapacidadPago();
@@ -32,8 +34,7 @@ public class EvaluarSolicitudCreditoUseCaseImpl implements EvaluarSolicitudCredi
                 solicitud.getMontoSolicitado(),
                 solicitud.getPlazoMeses(),
                 nuevoEstado,
-                solicitud.getFechaSolicitud()
-        );
+                solicitud.getFechaSolicitud());
 
         return solicitudCreditoRepositoryPort.guardar(solicitudEvaluada);
     }

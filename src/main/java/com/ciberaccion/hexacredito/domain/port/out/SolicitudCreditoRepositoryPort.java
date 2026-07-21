@@ -1,8 +1,9 @@
 package com.ciberaccion.hexacredito.domain.port.out;
 
 import com.ciberaccion.hexacredito.domain.model.SolicitudCredito;
+import java.util.Optional;
 
 public interface SolicitudCreditoRepositoryPort {
     SolicitudCredito guardar(SolicitudCredito solicitud);
-    SolicitudCredito buscarPorId(Long id);
+    Optional<SolicitudCredito> buscarPorId(Long id);
 }
