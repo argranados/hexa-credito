@@ -1,0 +1,91 @@
+### hexa-credito — pruebas de endpoints
+### Requiere la extensión "REST Client" (humao.rest-client) en VS Code
+### Levanta la app primero: ./mvnw spring-boot:run
+
+@baseUrl = http://localhost:8080/api
+
+###############################################
+# CLIENTES
+###############################################
+
+### 1. Crear cliente normal (documento limpio, ingresos altos)
+POST {{baseUrl}}/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Juan Pérez",
+  "documentoIdentidad": "12345678",
+  "ingresosMensuales": 15000
+}
+
+### 2. Crear cliente en lista negra (documento 00000000, ver ConsultaBuroAdapter)
+POST {{baseUrl}}/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Cliente En Lista Negra",
+  "documentoIdentidad": "00000000",
+  "ingresosMensuales": 20000
+}
+
+### 3. Consultar cliente por id (ajusta el id según lo que te devolvió el paso 1)
+GET {{baseUrl}}/clientes/1
+
+### 4. Consultar cliente que NO existe -> debe dar 404
+GET {{baseUrl}}/clientes/999
+
+### 5. Crear cliente inválido -> debe dar 400 con detalle de errores de validación
+POST {{baseUrl}}/clientes
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "documentoIdentidad": "",
+  "ingresosMensuales": -100
+}
+
+###############################################
+# SOLICITUDES DE CRÉDITO
+###############################################
+
+### 6. Solicitar crédito para cliente 1 -> debería APROBARSE al evaluar (monto <= 5x ingresos)
+POST {{baseUrl}}/solicitudes
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "montoSolicitado": 50000,
+  "plazoMeses": 12
+}
+
+### 7. Solicitar crédito para cliente 1 -> debería RECHAZARSE al evaluar (monto > 5x ingresos)
+POST {{baseUrl}}/solicitudes
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "montoSolicitado": 200000,
+  "plazoMeses": 24
+}
+
+### 8. Solicitar crédito para cliente 2 (lista negra) -> debería RECHAZARSE al evaluar sin importar el monto
+POST {{baseUrl}}/solicitudes
+Content-Type: application/json
+
+{
+  "clienteId": 2,
+  "montoSolicitado": 10000,
+  "plazoMeses": 6
+}
+
+### 9. Evaluar la solicitud del paso 6 (ajusta el id) -> esperado: APROBADA
+POST {{baseUrl}}/solicitudes/1/evaluar
+
+### 10. Evaluar la solicitud del paso 7 (ajusta el id) -> esperado: RECHAZADA (capacidad de pago)
+POST {{baseUrl}}/solicitudes/2/evaluar
+
+### 11. Evaluar la solicitud del paso 8 (ajusta el id) -> esperado: RECHAZADA (lista negra)
+POST {{baseUrl}}/solicitudes/3/evaluar
+
+### 12. Evaluar solicitud que NO existe -> debe dar 404
+POST {{baseUrl}}/solicitudes/999/evaluar

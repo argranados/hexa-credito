@@ -23,3 +23,6 @@ Clean Architecture, want rigid, standardized rules governing exactly where use-c
 Add application usecase clases
 Add infraestructure. Ahí es donde vas a ver la separación domain-model vs. entity-JPA
 
+22-Julio
+Add rest
+add test file http
