@@ -1,2 +1,25 @@
 20-Julio
 - Crear estructura del proyecto
+
+-se puede actualizar CLiente? no tiene setter
+Respuesta: En hexagonal (y en DDD en general), el domain/model normalmente no es la misma clase que se mapea a la tabla de la base de datos. Vamos a tener dos clases distintas para "Cliente"
+Y en medio, un mapper (puede ser una clase simple o un método estático) que convierte Cliente ↔ ClienteEntity, ClienteRepositoryAdapter 
+
+Tu regla ("no guardes lo que puedes calcular") → es sobre dónde vive el dato
+Rich vs. Anemic Domain Model → es sobre dónde vive el comportamiento
+
+- Clean Architecture and Hexagonal Architecture 
+share the exact same core goal: keeping your business logic decoupled from frameworks, databases, and user interfaces
+
+- Hexagonal focuses on how your application connects to external components. 
+Clean Architecture focuses on how your application enforces structural boundaries throughout the entire codebase
+
+- Heagonal. to keep your core logic separated from database and API frameworks
+Clean Architecture, want rigid, standardized rules governing exactly where use-case logic, entities, and controllers live
+
+- cada puerto de entrada representa una intención de negocio, no una operación CRUD genérica.
+
+21-Julio
+Add application usecase clases
+Add infraestructure. Ahí es donde vas a ver la separación domain-model vs. entity-JPA
+
