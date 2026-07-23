@@ -89,3 +89,6 @@ POST {{baseUrl}}/solicitudes/3/evaluar
 
 ### 12. Evaluar solicitud que NO existe -> debe dar 404
 POST {{baseUrl}}/solicitudes/999/evaluar
+
+### 13. listar todas las solicitudes
+GET {{baseUrl}}/solicitudes

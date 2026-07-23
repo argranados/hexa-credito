@@ -26,3 +26,9 @@ Add infraestructure. Ahí es donde vas a ver la separación domain-model vs. ent
 22-Julio
 Add rest
 add test file http
+
+23-Julio
+add frontend core paquete
+add backend listAllsolicitudes
+
+mvn spring-boot:run
