@@ -1,0 +1,42 @@
+<h2>Solicitudes de crédito</h2>
+
+<a routerLink="/solicitudes/nueva">+ Nueva solicitud</a>
+
+@if (cargando) {
+  <p>Cargando...</p>
+} @else if (error) {
+  <p>Ocurrió un error al cargar las solicitudes.</p>
+} @else if (solicitudes.length === 0) {
+  <p>No hay solicitudes registradas.</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Monto</th>
+        <th>Plazo (meses)</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (solicitud of solicitudes; track solicitud.id) {
+        <tr>
+          <td>{{ solicitud.id }}</td>
+          <td>{{ solicitud.cliente.nombre }}</td>
+          <td>{{ solicitud.montoSolicitado }}</td>
+          <td>{{ solicitud.plazoMeses }}</td>
+          <td>{{ solicitud.estado }}</td>
+          <td>{{ solicitud.fechaSolicitud }}</td>
+          <td>
+            @if (solicitud.estado === 'PENDIENTE') {
+              <button (click)="evaluar(solicitud.id)">Evaluar</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

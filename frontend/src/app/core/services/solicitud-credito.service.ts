@@ -8,7 +8,7 @@ import { SolicitudCredito, SolicitudCreditoRequest } from '../models/solicitud-c
 export class SolicitudCreditoService {
   private readonly baseUrl = 'http://localhost:8080/api/solicitudes';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   solicitar(solicitud: SolicitudCreditoRequest): Observable<SolicitudCredito> {
     return this.http.post<SolicitudCredito>(this.baseUrl, solicitud);
@@ -16,5 +16,9 @@ export class SolicitudCreditoService {
 
   evaluar(id: number): Observable<SolicitudCredito> {
     return this.http.post<SolicitudCredito>(`${this.baseUrl}/${id}/evaluar`, {});
+  }
+
+  listarTodas(): Observable<SolicitudCredito[]> {
+    return this.http.get<SolicitudCredito[]>(this.baseUrl);
   }
 }
