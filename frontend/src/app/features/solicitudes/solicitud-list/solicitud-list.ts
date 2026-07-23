@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SolicitudCreditoService } from '../../../core/services/solicitud-credito.service';
 import { SolicitudCredito } from '../../../core/models/solicitud-credito.model';
@@ -14,17 +14,22 @@ export class SolicitudList implements OnInit {
   cargando = true;
   error = false;
 
-  constructor(private solicitudCreditoService: SolicitudCreditoService) {}
+  constructor(
+    private solicitudCreditoService: SolicitudCreditoService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.solicitudCreditoService.listarTodas().subscribe({
       next: (data) => {
         this.solicitudes = data;
         this.cargando = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.error = true;
         this.cargando = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -33,6 +38,7 @@ export class SolicitudList implements OnInit {
     this.solicitudCreditoService.evaluar(id).subscribe({
       next: (actualizada) => {
         this.solicitudes = this.solicitudes.map(s => (s.id === actualizada.id ? actualizada : s));
+        this.cdr.markForCheck();
       }
     });
   }
