@@ -5,6 +5,7 @@ import com.ciberaccion.hexacredito.domain.port.out.SolicitudCreditoRepositoryPor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -24,5 +25,12 @@ public class SolicitudCreditoRepositoryAdapter implements SolicitudCreditoReposi
     public Optional<SolicitudCredito> buscarPorId(Long id) {
         return solicitudCreditoJpaRepository.findById(id)
                 .map(SolicitudCreditoMapper::toDomain);
+    }
+
+    @Override
+    public List<SolicitudCredito> listarTodas() {
+        return solicitudCreditoJpaRepository.findAll().stream()
+                .map(SolicitudCreditoMapper::toDomain)
+                .toList();
     }
 }
