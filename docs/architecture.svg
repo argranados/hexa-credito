@@ -1,0 +1,44 @@
+<svg width="800" height="560" viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>hexa-credito hexagonal architecture</title>
+  <desc>Three nested layers showing dependency direction: Infrastructure depends on Application, which depends on Domain. The Domain layer at the center has no dependency on the outer layers.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .title { font-size: 20px; font-weight: 600; }
+    .subtitle { font-size: 13px; font-weight: 400; }
+    .infra-stroke { stroke: #D85A30; }
+    .infra-text { fill: #993C1D; }
+    .app-stroke { stroke: #1D9E75; }
+    .app-text { fill: #0F6E56; }
+    .dom-fill { fill: #EEEDFE; stroke: #7F77DD; }
+    .dom-text { fill: #3C3489; }
+    .caption { fill: #57534E; font-size: 13px; }
+    @media (prefers-color-scheme: dark) {
+      .infra-stroke { stroke: #F0997B; }
+      .infra-text { fill: #F5C4B3; }
+      .app-stroke { stroke: #5DCAA5; }
+      .app-text { fill: #9FE1CB; }
+      .dom-fill { fill: #3C3489; stroke: #AFA9EC; }
+      .dom-text { fill: #EEEDFE; }
+      .caption { fill: #B4B2A9; }
+    }
+  </style>
+
+  <!-- Infrastructure (outer layer) -->
+  <rect x="40" y="40" width="720" height="400" rx="28" fill="none" stroke-width="2" class="infra-stroke"/>
+  <text x="400" y="68" text-anchor="middle" class="title infra-text">Infrastructure</text>
+  <text x="400" y="90" text-anchor="middle" class="subtitle infra-text">REST controllers · JPA adapters · external adapters</text>
+
+  <!-- Application (middle layer) -->
+  <rect x="160" y="110" width="480" height="260" rx="22" fill="none" stroke-width="2" class="app-stroke"/>
+  <text x="400" y="138" text-anchor="middle" class="title app-text">Application</text>
+  <text x="400" y="160" text-anchor="middle" class="subtitle app-text">Use cases · orchestrates the domain via ports</text>
+
+  <!-- Domain (inner layer, filled) -->
+  <rect x="290" y="190" width="220" height="100" rx="16" stroke-width="2" class="dom-fill"/>
+  <text x="400" y="230" text-anchor="middle" class="title dom-text">Domain</text>
+  <text x="400" y="252" text-anchor="middle" class="subtitle dom-text">Business rules · zero framework deps</text>
+
+  <!-- Caption -->
+  <text x="400" y="505" text-anchor="middle" class="caption">Dependencies point inward only</text>
+  <text x="400" y="525" text-anchor="middle" class="caption">Infrastructure → Application → Domain, never the reverse</text>
+</svg>

@@ -2,7 +2,11 @@
 
 A credit-request management system (submit → evaluate → approve/reject) built to demonstrate **hexagonal architecture** end-to-end — from a framework-agnostic domain model in Spring Boot to a zoneless Angular 22 frontend consuming it.
 
-> Built as a guided learning exercise. I made every architectural decision and wrote all the code myself, working with Claude (Anthropic) as a technical mentor throughout — explaining concepts, reviewing my code, catching bugs, and pushing back on design choices along the way.
+> Learning project: Own code and architecture with Claude AI technical mentorship.
+
+<img src="./docs/architecture.svg" width="75%" alt="hexa-credito architecture">
+
+<img src="./docs/credit-request.png" width="75%" alt="credit request">
 
 This is a scoped practice project, not a production system. The scope decisions below are deliberate, not accidental — see [What's next](#whats-next) for what's intentionally left out.
 
