@@ -10,6 +10,22 @@ A credit-request management system (submit → evaluate → approve/reject) buil
 
 This is a scoped practice project, not a production system. The scope decisions below are deliberate, not accidental — see [What's next](#whats-next) for what's intentionally left out.
 
+## Stack
+
+**Backend** — Java 17 · Spring Boot 3.5 · Spring Data JPA · H2 · Bean Validation · Lombok
+**Frontend** — Angular 22 (standalone, zoneless) · RxJS · Reactive Forms
+**Infra** — Docker (frontend runs fully containerized, no local Node/npm required)
+
+## Architecture at a glance
+
+```
+domain/           → framework-agnostic business model + ports (interfaces only)
+application/      → use cases: orchestrate domain + ports, no infrastructure knowledge
+infrastructure/   → REST controllers, JPA adapters, external-service adapter, config
+```
+
+Dependencies point inward only: `infrastructure → application → domain`. The domain never imports from the other two.
+
 ## Technical decisions (and why)
 
 **Hexagonal architecture over classic layered/MVC.** The domain (`SolicitudCredito`, `Cliente`, the approval rule) has zero dependency on Spring, JPA, or HTTP — it's plain Java behind interfaces (ports). This isn't architecture for its own sake: it's what let me swap the credit bureau check from a live dependency to an in-memory mock without touching a single line of business logic, because the use case only knows about `ConsultaBuroPort`, never the implementation behind it.
@@ -27,22 +43,6 @@ This is a scoped practice project, not a production system. The scope decisions 
 **Classic RxJS over Signals on the frontend.** Angular 22 pushes Signals as the modern default, but I chose plain `Observable` + `subscribe()` because production Angular codebases are more likely to still be RxJS-based. That choice has a real cost in zoneless Angular (v21+): without Zone.js, mutating component state inside a `subscribe()` callback doesn't trigger a re-render on its own. I hit this as a real bug, diagnosed it, and fixed it with an explicit `ChangeDetectorRef.markForCheck()` — rather than sidestepping the problem by switching to Signals.
 
 **Interface segregation over CRUD-shaped ports.** Instead of one fat `ClienteUseCase` with four methods, there's `CrearClienteUseCase` and `ConsultarClienteUseCase` — each inbound port represents one business intent, not a generic data operation.
-
-## Stack
-
-**Backend** — Java 17 · Spring Boot 3.5 · Spring Data JPA · H2 · Bean Validation · Lombok
-**Frontend** — Angular 22 (standalone, zoneless) · RxJS · Reactive Forms
-**Infra** — Docker (frontend runs fully containerized, no local Node/npm required)
-
-## Architecture at a glance
-
-```
-domain/           → framework-agnostic business model + ports (interfaces only)
-application/      → use cases: orchestrate domain + ports, no infrastructure knowledge
-infrastructure/   → REST controllers, JPA adapters, external-service adapter, config
-```
-
-Dependencies point inward only: `infrastructure → application → domain`. The domain never imports from the other two.
 
 ## Running locally
 
