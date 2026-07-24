@@ -1,0 +1,37 @@
+<h2>Nueva solicitud de crédito</h2>
+
+<form [formGroup]="form" (ngSubmit)="enviar()">
+  <div>
+    <label for="clienteId">ID de cliente</label>
+    <input id="clienteId" type="number" formControlName="clienteId" />
+    @if (form.controls.clienteId.invalid && form.controls.clienteId.touched) {
+      <span class="error">El id de cliente es obligatorio y debe ser mayor a 0.</span>
+    }
+  </div>
+
+  <div>
+    <label for="montoSolicitado">Monto solicitado</label>
+    <input id="montoSolicitado" type="number" formControlName="montoSolicitado" />
+    @if (form.controls.montoSolicitado.invalid && form.controls.montoSolicitado.touched) {
+      <span class="error">El monto es obligatorio y debe ser mayor a 0.</span>
+    }
+  </div>
+
+  <div>
+    <label for="plazoMeses">Plazo (meses)</label>
+    <input id="plazoMeses" type="number" formControlName="plazoMeses" />
+    @if (form.controls.plazoMeses.invalid && form.controls.plazoMeses.touched) {
+      <span class="error">El plazo es obligatorio y debe ser de al menos 1 mes.</span>
+    }
+  </div>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  <button type="submit" [disabled]="enviando">
+    {{ enviando ? 'Enviando...' : 'Solicitar crédito' }}
+  </button>
+
+  <a routerLink="/">Cancelar</a>
+</form>
