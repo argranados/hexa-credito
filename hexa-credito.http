@@ -92,3 +92,13 @@ POST {{baseUrl}}/solicitudes/999/evaluar
 
 ### 13. listar todas las solicitudes
 GET {{baseUrl}}/solicitudes
+
+### 14. Crear cliente normal (documento limpio, ingresos altos)
+POST {{baseUrl}}/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Eliodoro Camacho",
+  "documentoIdentidad": "11223344",
+  "ingresosMensuales": 10000
+}
